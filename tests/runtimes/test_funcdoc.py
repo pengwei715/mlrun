@@ -326,6 +326,8 @@ def my_function(x):
     funcdoc.add_function_entry_point(function, code, name)  # First add
     funcdoc.replace_function_entry_point(function, code, name)  # Then replace
     assert name in function.spec.entry_points
+    import pdb
+    pdb.set_trace()
     # Assuming body representation is just a list with a return statement for simplicity
     assert function.spec.entry_points[name]["body"][0].value.n == 2
 
