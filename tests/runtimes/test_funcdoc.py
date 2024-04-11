@@ -19,6 +19,7 @@ import pytest
 import yaml
 
 from mlrun.runtimes import funcdoc
+from mlrun.runtimes.base import BaseRuntime
 from tests.conftest import tests_root_directory
 
 
@@ -303,3 +304,42 @@ def test_return_types(func_code, expected_return_type):
     fn: ast.FunctionDef = ast.parse(dedent(func_code)).body[0]
     func_info = funcdoc.ast_func_info(fn)
     assert func_info["return"]["type"] == expected_return_type
+
+def test_add_function_entry_point():
+    function = BaseRuntime()
+    code = """
+def my_function(x):
+    return x + 1
+"""
+    name = "my_function"
+    funcdoc.add_function_entry_point(function, code, name)
+    assert name in function.spec.entry_points
+    assert function.spec.entry_points[name]["name"] == name
+
+def test_replace_function_entry_point():
+    function = BaseRuntime()
+    code = """
+def my_function(x):
+    return x + 2
+"""
+    name = "my_function"
+    funcdoc.add_function_entry_point(function, code, name)  # First add
+    new_code = """
+def my_function(x, y):
+    return x + y
+"""
+    funcdoc.replace_function_entry_point(function, new_code, name)  # Then replace
+    assert name in function.spec.entry_points
+    assert len(function.spec.entry_points[name]['params']) == 2
+
+def test_delete_function_entry_point():
+    function = BaseRuntime()
+    code = """
+def my_function(x):
+    return x + 1
+"""
+    name = "my_function"
+    funcdoc.add_function_entry_point(function, code, name)
+    funcdoc.delete_function_entry_point(function, name)
+    assert name not in function.spec.entry_points
+

@@ -50,7 +50,12 @@ from ..utils import (
     now_date,
     update_in,
 )
-from .funcdoc import update_function_entry_points
+from .funcdoc import (
+    add_function_entry_point,
+    delete_function_entry_point,
+    replace_function_entry_point,
+    update_function_entry_points,
+)
 from .utils import RunError, calc_hash
 
 spec_fields = [
@@ -782,6 +787,37 @@ class BaseRuntime(ModelObj):
         )
         if with_doc:
             update_function_entry_points(self, body)
+        return self
+
+    def add_entry_point(self, code: str, name: str):
+        """
+        Add new entry point to the runtime function
+
+        :param code: the function string
+        :param name: name of the entry_point
+        """
+
+        add_function_entry_point(self, code, name)
+        return self
+
+    def replace_entry_point(self, code: str, name: str):
+        """
+        Replace the exsisting entry_point
+
+        :param code: new function
+        :param name: name of the function
+
+        """
+        replace_function_entry_point(self, code, name)
+        return self
+
+    def delete_function_entry_point(self, name: str):
+        """
+        Delete the entrypoint with name
+
+        :param: name name of the function
+        """
+        delete_function_entry_point(self, name)
         return self
 
     def with_requirements(
