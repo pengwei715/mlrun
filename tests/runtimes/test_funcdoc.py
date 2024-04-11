@@ -305,14 +305,14 @@ def test_return_types(func_code, expected_return_type):
     func_info = funcdoc.ast_func_info(fn)
     assert func_info["return"]["type"] == expected_return_type
 
-def test_add_function_entry_points():
+def test_add_function_entry_point():
     function = BaseRuntime()
     code = """
 def my_function(x):
     return x + 1
 """
     name = "my_function"
-    add_function_entry_points(function, code, name)
+    funcdoc.add_function_entry_point(function, code, name)
     assert name in function.spec.entry_points
     assert function.spec.entry_points[name]["name"] == name
 
@@ -323,20 +323,20 @@ def my_function(x):
     return x + 2
 """
     name = "my_function"
-    add_function_entry_points(function, code, name)  # First add
-    replace_function_entry_point(function, code, name)  # Then replace
+    funcdoc.add_function_entry_points(function, code, name)  # First add
+    funcdoc.replace_function_entry_point(function, code, name)  # Then replace
     assert name in function.spec.entry_points
     # Assuming body representation is just a list with a return statement for simplicity
     assert function.spec.entry_points[name]["body"][0].value.n == 2
 
-def test_delete_function_entry_points():
+def test_delete_function_entry_point():
     function = BaseRuntime()
     code = """
 def my_function(x):
     return x + 1
 """
     name = "my_function"
-    add_function_entry_points(function, code, name)
-    delete_function_entry_points(function, name)
+    funcdoc.add_function_entry_point(function, code, name)
+    funcdoc.delete_function_entry_points(function, name)
     assert name not in function.spec.entry_points
 

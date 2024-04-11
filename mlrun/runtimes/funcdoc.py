@@ -319,14 +319,14 @@ def replace_function_entry_point(function, code, name):
     funcs = [ast_func_info(fn) for fn in visitor.funcs if ast_func_info(fn)["name"] == name]
     function.spec.entry_points[name] = funcs[0]
 
-def add_function_entry_points(function, code, name):
+def add_function_entry_point(function, code, name):
     mod = ast.parse(code)
     visitor = ASTVisitor()
     visitor.visit(mod)
     funcs = [ast_func_info(fn) for fn in visitor.funcs]
     function.spec.entry_points[name] = funcs[0]
 
-def delete_function_entry_points(function, name):
+def delete_function_entry_point(function, name):
     del function.spec.entry_points[name]
 
 
