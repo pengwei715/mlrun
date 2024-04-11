@@ -49,8 +49,12 @@ from ..utils import (
     now_date,
     update_in,
 )
-from .funcdoc import update_function_entry_points, add_function_entry_point, replace_function_entry_point,
-delete_function_entry_point
+from .funcdoc import (
+    add_function_entry_point,
+    delete_function_entry_point,
+    replace_function_entry_point,
+    update_function_entry_points,
+)
 from .utils import RunError, calc_hash
 
 spec_fields = [
@@ -797,7 +801,7 @@ class BaseRuntime(ModelObj):
         """
         Replace the exsisting entry_point
 
-        :param code: new function 
+        :param code: new function
         :param name: name of the function
 
         """
