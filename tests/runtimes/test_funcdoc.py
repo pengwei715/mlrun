@@ -323,7 +323,7 @@ def my_function(x):
     return x + 2
 """
     name = "my_function"
-    funcdoc.add_function_entry_points(function, code, name)  # First add
+    funcdoc.add_function_entry_point(function, code, name)  # First add
     funcdoc.replace_function_entry_point(function, code, name)  # Then replace
     assert name in function.spec.entry_points
     # Assuming body representation is just a list with a return statement for simplicity
@@ -337,6 +337,6 @@ def my_function(x):
 """
     name = "my_function"
     funcdoc.add_function_entry_point(function, code, name)
-    funcdoc.delete_function_entry_points(function, name)
+    funcdoc.delete_function_entry_point(function, name)
     assert name not in function.spec.entry_points
 
