@@ -324,12 +324,13 @@ def my_function(x):
 """
     name = "my_function"
     funcdoc.add_function_entry_point(function, code, name)  # First add
-    funcdoc.replace_function_entry_point(function, code, name)  # Then replace
+    new_code = """
+def my_new_function(x, y):
+    return x + y
+"""
+    funcdoc.replace_function_entry_point(function, new_code, name)  # Then replace
     assert name in function.spec.entry_points
-    import pdb
-    pdb.set_trace()
-    # Assuming body representation is just a list with a return statement for simplicity
-    assert function.spec.entry_points[name]["body"][0].value.n == 2
+    assert function.spec.entry_points[name]['name'] == 'my_new_function'
 
 def test_delete_function_entry_point():
     function = BaseRuntime()
